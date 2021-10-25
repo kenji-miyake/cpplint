@@ -886,6 +886,9 @@ _line_length = 80
 # This allows to use different include order rule than default
 _include_order = "default"
 
+# This allows to use different directory separator rule than default
+_dir_separator = "default"
+
 try:
     unicode
 except NameError:
@@ -941,6 +944,15 @@ def ProcessIncludeOrderOption(val):
         _include_order = val
     else:
         PrintUsage("Invalid includeorder value %s. Expected default|standardcfirst")
+
+def ProcessDirSeparatorOption(val):
+    if val is None or val == "default":
+        pass
+    elif val == "double":
+        global _dir_separator
+        _dir_separator = val
+    else:
+        PrintUsage("Invalid dirseparator value %s. Expected default|dirseparator")
 
 
 def IsHeaderExtension(file_extension):
@@ -2449,6 +2461,11 @@ def GetHeaderGuardCPPVariable(filename):
         return file_path_from_root
 
     file_path_from_root = FixupPathFromRoot()
+
+    # use double separator
+    if _dir_separator == "double":
+        file_path_from_root = file_path_from_root.replace('/', '//')
+
     return re.sub(r"[^a-zA-Z0-9]", "_", file_path_from_root).upper() + "_"
 
 
@@ -7496,6 +7513,7 @@ def ParseArguments(args):
                 "recursive",
                 "headers=",
                 "includeorder=",
+                "dirseparator=",
                 "quiet",
             ],
         )
@@ -7558,6 +7576,8 @@ def ParseArguments(args):
             recursive = True
         elif opt == "--includeorder":
             ProcessIncludeOrderOption(val)
+        elif opt == "--dirseparator":
+            ProcessDirSeparatorOption(val)
 
     if not filenames:
         PrintUsage("No files were specified.")
