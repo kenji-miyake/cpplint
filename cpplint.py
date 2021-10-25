@@ -2416,6 +2416,16 @@ def GetHeaderGuardCPPVariable(filename):
         if not _root:
             if _root_debug:
                 sys.stderr.write("_root unspecified\n")
+
+            # automatically set root directory
+            if _root_candidates:
+                for auto_root_dir in _root_candidates.split(","):
+                    normalized_path = os.path.normpath(os.path.abspath(filename))
+                    match = re.match(r".*/{}/(.*)".format(auto_root_dir), normalized_path)
+                    if not "/{}/".format(auto_root_dir) in normalized_path:
+                        continue
+                    return match.groups()[0]
+
             return file_path_from_root
 
         def StripListPrefix(lst, prefix):
@@ -7506,6 +7516,7 @@ def ParseArguments(args):
                 "counting=",
                 "filter=",
                 "root=",
+                "rootcandidates=",
                 "repository=",
                 "linelength=",
                 "extensions=",
@@ -7554,6 +7565,9 @@ def ParseArguments(args):
         elif opt == "--root":
             global _root
             _root = val
+        elif opt == "--rootcandidates":
+            global _root_candidates
+            _root_candidates = val
         elif opt == "--repository":
             global _repository
             _repository = val
