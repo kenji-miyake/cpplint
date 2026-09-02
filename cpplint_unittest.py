@@ -530,8 +530,10 @@ class TestCpplint(CpplintTestBase):
         self.TestLint(
             "long a = (int64_t) 65;",
             [
-                "Using C-style cast.  Use static_cast<int64_t>(...) instead"
-                "  [readability/casting] [4]",
+                (
+                    "Using C-style cast.  Use static_cast<int64_t>(...) instead"
+                    "  [readability/casting] [4]"
+                ),
                 "Use int16_t/int64_t/etc, rather than the C type long  [runtime/int] [4]",
             ],
         )
@@ -975,8 +977,10 @@ class TestCpplint(CpplintTestBase):
         self.TestLint(
             "int* x = &(int*)foo;",
             [
-                "Using C-style cast.  Use reinterpret_cast<int*>(...) "
-                "instead  [readability/casting] [4]",
+                (
+                    "Using C-style cast.  Use reinterpret_cast<int*>(...) "
+                    "instead  [readability/casting] [4]"
+                ),
                 error_msg,
             ],
         )
@@ -1647,8 +1651,10 @@ class TestCpplint(CpplintTestBase):
           };""",
                 [
                     "Extra space before ( in function call  [whitespace/parens] [4]",
-                    "Single-parameter constructors should be marked explicit."
-                    "  [runtime/explicit] [4]",
+                    (
+                        "Single-parameter constructors should be marked explicit."
+                        "  [runtime/explicit] [4]"
+                    ),
                 ],
             )
             # missing explicit, with distracting comment, is still bad
@@ -3757,8 +3763,10 @@ class TestCpplint(CpplintTestBase):
             "nul_utf8.cc", "cc", ["// Copyright 2014 Your Company.", unidata, ""], error_collector
         )
         assert error_collector.Results() == [
-            "Line contains invalid UTF-8 (or Unicode replacement character).  "
-            "[readability/utf8] [5]",
+            (
+                "Line contains invalid UTF-8 (or Unicode replacement character).  "
+                "[readability/utf8] [5]"
+            ),
             "Line contains NUL byte.  [readability/nul] [5]",
         ]
 
@@ -3997,7 +4005,7 @@ class TestCpplint(CpplintTestBase):
                 "}",
                 "else if (piyo) {",  # Warning on this line
                 "}",
-                " else {"  # Warning on this line
+                " else {",  # Warning on this line
                 "",
                 "}",
             ],
@@ -4096,9 +4104,11 @@ class TestCpplint(CpplintTestBase):
             "foo.cc",
             "cc",
             [
-                "const auto result = std::any_of(vector.begin(), "
-                "vector.end(), "
-                "[](const int i) { return i > 0; });"
+                (
+                    "const auto result = std::any_of(vector.begin(), "
+                    "vector.end(), "
+                    "[](const int i) { return i > 0; });"
+                )
             ],
             error_collector,
         )
@@ -4117,9 +4127,11 @@ class TestCpplint(CpplintTestBase):
             "foo.cc",
             "cc",
             [
-                "return mutex::Lock<void>([this]() { "
-                "this->ReadLock(); }, [this]() { "
-                "this->ReadUnlock(); });"
+                (
+                    "return mutex::Lock<void>([this]() { "
+                    "this->ReadLock(); }, [this]() { "
+                    "this->ReadUnlock(); });"
+                )
             ],
             error_collector,
         )
@@ -4138,9 +4150,11 @@ class TestCpplint(CpplintTestBase):
             "foo.cc",
             "cc",
             [
-                "return mutex::Lock<void>([this]() { "
-                "this->ReadLock(); }, [this]() { "
-                "this->ReadUnlock(); }, object);"
+                (
+                    "return mutex::Lock<void>([this]() { "
+                    "this->ReadLock(); }, [this]() { "
+                    "this->ReadUnlock(); }, object);"
+                )
             ],
             error_collector,
         )
@@ -5166,10 +5180,14 @@ func2();""",
             self.TestMultiLineLint(
                 test_code,
                 [
-                    "Single-parameter constructors should be marked explicit."
-                    "  [runtime/explicit] [4]",
-                    "{ should almost always be at the end of the previous line"
-                    "  [whitespace/braces] [4]",
+                    (
+                        "Single-parameter constructors should be marked explicit."
+                        "  [runtime/explicit] [4]"
+                    ),
+                    (
+                        "{ should almost always be at the end of the previous line"
+                        "  [whitespace/braces] [4]"
+                    ),
                 ],
             )
 
@@ -5193,10 +5211,14 @@ func2();""",
             self.TestMultiLineLint(
                 test_code,
                 [
-                    "Single-parameter constructors should be marked explicit."
-                    "  [runtime/explicit] [4]",
-                    "{ should almost always be at the end of the previous line"
-                    "  [whitespace/braces] [4]",
+                    (
+                        "Single-parameter constructors should be marked explicit."
+                        "  [runtime/explicit] [4]"
+                    ),
+                    (
+                        "{ should almost always be at the end of the previous line"
+                        "  [whitespace/braces] [4]"
+                    ),
                 ],
             )
 
